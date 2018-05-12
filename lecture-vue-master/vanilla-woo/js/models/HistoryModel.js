@@ -1,4 +1,3 @@
-// 컬렉션형태의 데이터들
 export default {
   data: [
     { keyword: '검색기록2', date: '12.03' },
@@ -8,12 +7,11 @@ export default {
 
   list() {
     return Promise.resolve(this.data)
-    // 히스토리데이터 비동기로 구현
   },
-
+  
   add(keyword = '') {
     keyword = keyword.trim()
-    if (!keyword) return
+    if (!keyword) return 
     if (this.data.some(item => item.keyword === keyword)) {
       this.remove(keyword)
     }
@@ -21,7 +19,7 @@ export default {
     const date = '12.31'
     this.data = [{keyword, date}, ...this.data]
   },
-
+  
   remove(keyword) {
     this.data = this.data.filter(item => item.keyword !== keyword)
   }
