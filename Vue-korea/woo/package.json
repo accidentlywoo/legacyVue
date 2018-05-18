@@ -1,0 +1,6 @@
+{
+  "name": "woo-app",
+  "scripts": {
+    "dev": "nuxt"
+  }
+}
