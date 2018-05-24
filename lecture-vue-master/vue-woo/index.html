@@ -17,7 +17,7 @@
       <form v-on:submit.prevent="onSubmit">
       <!-- prevent : enter 화면갱신x -->
         <input type="text" v-model="query" v-on:keyup="onKeyup" placeholder="검색어를 입력하세요" autofocus>
-        <button v-show="query.length" v-on:@="onReset" type="reset" class="btn-reset"></button>
+        <button v-show="query.length" v-on:click="onReset" type="reset" class="btn-reset"></button>
       </form>
 
       <div v-if="submitted">

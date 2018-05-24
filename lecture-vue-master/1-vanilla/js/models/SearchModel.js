@@ -13,9 +13,16 @@ const data = [
 
 export default {
   list(query) {
+    var resData = [];
+    for(var i = 0; i < data.length; i++) {
+      console.log(data[i]);
+      if(data[i].name.indexOf(query) > -1) {
+        resData.push(data[i]);
+      }
+    }
     return new Promise(res => {
       setTimeout(()=> {
-        res(data)
+        res(resData)
       }, 200);
     })
   }

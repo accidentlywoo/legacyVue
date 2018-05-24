@@ -4,34 +4,32 @@ const tag = '[ResultView]'
 
 const ResultView = Object.create(View)
 
-ResultView.message = {
-  NO_RESULT:'검색 결과가 없습니다.'
+ResultView.messages = {
+  NO_RESULT: '검색 결과가 없습니다'
 }
 
-ResultView.setup = function(el){
+ResultView.setup = function (el) {
   this.init(el)
 }
 
-ResultView.render = function(data = []){
-// 데이터를 받아서 동적으로 DOM을 만들어준다.
-    console.log(tag,'render()',data);
-    this.el.innerHTML = data.length ? this.getSearchResultsHtml(data) : this.message.NO_RESULT
-
+ResultView.render = function (data = []) {
+  console.log(tag, 'render()', data)
+  this.el.innerHTML = data.length ? this.getSearchResultsHtml(data) : this.messages.NO_RESULT
+  this.show()
 }
 
-ResultView.getSearchResultsHtml = function(data){
-  return data.reduce((html,item) =>{
+ResultView.getSearchResultsHtml = function (data) {
+  return data.reduce((html, item) => {
     html += this.getSearchItemHtml(item)
     return html
-  },'<ul>') + '</ul>'
+  }, '<ul>') + '</ul>'
 }
 
-ResultView.getSearchItemHtml = function(item){
+ResultView.getSearchItemHtml = function (item) {
   return `<li>
-    <img src="${item.image}">
+    <img src="${item.image}" />
     <p>${item.name}</p>
-  </li>
-  `
+  </li>`
 }
 
 export default ResultView
