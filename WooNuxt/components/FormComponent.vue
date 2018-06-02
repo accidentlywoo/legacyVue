@@ -7,7 +7,7 @@
 </template>
 
 <script>
-export default{
+export default{  
   props:['value'],
   // Props : 내부값을 상위 변수로 받는다.(query 값을 SearchForm바깥으로 value값으로 받는다.)
   data(){

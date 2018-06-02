@@ -10,13 +10,20 @@
       </h2>
       <div class="links">
         <a
-          href="https://nuxtjs.org/"
+          href="./baemin"
           target="_blank"
-          class="button--green">Documentation</a>
+          class="button--green">배달의 민족</a>
         <a
-          href="https://github.com/nuxt/nuxt.js"
           target="_blank"
           class="button--grey">GitHub</a>
+        <a href="./baemin"
+          target="_blank"
+          class="button--green"
+          >블로그</a>
+        <a href="./search-form"
+          target="_blank"
+          class="button--grey"
+          >검색폼</a>
       </div>
     </div>
   </section>

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <header>
       <h2 class="container">검색</h2>
@@ -16,11 +16,11 @@
            v-on:@change="onClickTab"></tabs>
 
           <div v-if="selectedTab === tabs[0]">
-            <list v-bind:data="keywords" type="keywords" @click="onClickKeyword"></list>
+            <list v-bind:data="keywords" type="keywords" v-on:@click="onClickKeyword"></list>
           </div>
 
           <div v-else>
-            <list v-bind:data="history" type="history" @click="onClickKeyword" @remove="onClickRemoveHistory"></list>
+            <list v-bind:data="history" type="history" v-on:@click="onClickKeyword" v-on:@remove="onClickRemoveHistory"></list>
           </div>
         </div>
       </div>
@@ -29,14 +29,14 @@
 </template>
 
 <script>
-import SearchModel from './models/SearchModel.js'
-import KeywordModel from './models/KeywordModel.js'
-import HistoryModel from './models/HistoryModel.js'
+import SearchModel from '../models/SearchModel.js'
+import KeywordModel from '../models/KeywordModel.js'
+import HistoryModel from '../models/HistoryModel.js'
 
-import FormComponent from './components/FormComponent.vue'
-import ListComponent from './components/ListComponent.vue'
-import ResultComponent from './components/ResultComponent.vue'
-import TabComponent from './components/TabComponent.vue'
+import FormComponent from '../components/FormComponent.vue'
+import ListComponent from '../components/ListComponent.vue'
+import ResultComponent from '../components/ResultComponent.vue'
+import TabComponent from '../components/TabComponent.vue'
 
 export default {
   name: 'app',
@@ -107,4 +107,4 @@ export default {
     }
   }
 }
-</script>
+</script> -->

@@ -31,10 +31,10 @@ export default {
   },
   methods:{
     onClickList(keyword){
-      this.$emit('click',keyword)
+      this.$emit('@click',keyword)
     },
     onRemoveList(keyword){
-      this.$emit('remove',keyword)
+      this.$emit('@remove',keyword)
     }
   }
 }

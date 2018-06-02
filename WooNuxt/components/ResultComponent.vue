@@ -1,6 +1,6 @@
 <template>
   <div v-if="data.length">
-    <ul id="search-result">
+    <ul>
       <li v-for="item in data">
         <img v-bind:src="item.image"> {{item.name}}
       </li>
