@@ -29,3 +29,20 @@ CASE3 : 아무런 동작없음
 CASE4 : 아무런 동작없음
 함수(false)
 
+
+ㅡㅡㅡㅡㅡ
+프로미스
+"POST", "https://m.apps.ssg.com/api/eventcoupon/main/datas.ssg"
+const param = {
+	"common"	: {
+		"apl_ver"		: "2.4.5"
+	,	"os_cd"			: "20"
+	,	"ts"			: "20171121144621"
+	,	"mobil_app_no"	: "12"
+	}
+,	"params"	: {
+		"itemImgSize"	: "500"
+	,	"siteNo"		: "6005"
+	,	"type"			: "osmu"
+	}
+}
