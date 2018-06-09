@@ -1,3 +1,11 @@
+언어 : 클로져, 리턴체인, 콜백체인, 프로미스, 프로토타입
+데이터 : JSON, AJAX, OLTP, BATCH
+디자인패턴 : MVC, MVVM, 빈즈, 싱글턴
+인프라 : 웹, CDN, API, WAS, DB
+네트워크 : HTTP, 소켓
+물류 : 입하, 입고, 이동, 피킹, 패킹, 출고, 출하
+전시 : 엔진, 템플릿, 코너, UNIT, OSMU, 뷰캐시, DTO캐시
+
 클로져
  - 객체 만들기 : private 속성 + getter/setter
 리턴체인
