@@ -1,0 +1,23 @@
+<script>
+var param = {
+	"common"	: {
+		"apl_ver"		: "2.4.5"
+	,	"os_cd"			: "20"
+	,	"ts"			: "20171121144621"
+	,	"mobil_app_no"	: "12"
+	}
+,	"params"	: {
+		"itemImgSize"	: "500"
+	,	"siteNo"		: "6005"
+	,	"type"			: "osmu"
+	}
+}
+
+var test1 = JSON.stringify(param)
+console.log('>> test1: ', test1)
+// 위 실행하면 이렇게 됨
+// '{"common":{"apl_ver":"2.4.5","os_cd":"20","ts":"20171121144621","mobil_app_no":"12"},"params":{"itemImgSize":"500","siteNo":"6005","type":"osmu"}}'
+
+var test2 = JSON.parse(test1)
+console.log('>> test2: ', test2)
+</script>
