@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>title</title>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    </head>
+<script>
+
+// test1();
+// test2();
+// test3();
+
+// 1. 비동기
+function test1(test, testtest) {
+	return new Promise(function(resolveRoot, rejectRoot) {
+		const a = function() {
+			setTimeout(function() {
+				console.log('1.a func')
+			}, 100);
+		}
+		const b = function() {
+			setTimeout(function() {
+				console.log('1.b func')
+				resolveRoot();
+			}, 300);
+		}
+		const c = function() {
+			setTimeout(function() {
+				console.log('1.c func')
+			}, 200);
+		}
+		a();
+		b();
+		c();
+	});
+}
+
+// 2. 동기 (콜백)
+function test2(test, testtest) {
+	return new Promise(function(resolveRoot, rejectRoot) {
+		const aa = function(cb1, cb2) {
+			setTimeout(function() {
+				console.log('2.a func')
+				cb1 ? cb1(cb2) : null;
+			}, 100);
+		}
+		const bb = function(cb1, cb2) {
+			setTimeout(function() {
+				console.log('2.b func')
+				cb1 ? cb1(cb2) : null;
+			}, 300);
+		}
+		const cc = function(cb1, cb2) {
+			setTimeout(function() {
+				console.log('2.c func')
+				cb1 ? cb1(cb2) : null;
+				resolveRoot()
+			}, 200);
+		}
+
+		aa(bb, cc);
+	});
+}
+
+// 3. 동기(프로미스) // 겸사겸사 코드도 공통화
+function test3() {
+	return new Promise(function(resolveRoot, rejectRoot) {
+		const test = function(name, time) {
+			return new Promise(function(resolve, reject) {
+				setTimeout(function() {
+					console.log('3.' + name + ' func')
+					resolve('test');
+				}, time);
+			});
+		}
+
+		test('a', 300)
+		.then(function(data) {
+			console.log(data);
+			test('b', 100)
+			.then(function() {
+				test('c', 200)
+				.then(function() {
+					resolveRoot()
+				})
+			})
+		})
+	});
+}
+test1()
+.then(() => test2()
+.then(() => test3()
+))
+</script>
+</html>

@@ -1,0 +1,138 @@
+{<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <script>
+    console.log('== Lexical scoping ==');
+
+    function init() {
+      var name = "Mozilla"; // name은 init 에 의해 생성된 지역변수다
+      function displayName() { // displayName() 은 내부 함수이며,클로저다
+        console.log(name); // 부모 함수에서 선언된 변수를 사용한다
+      }
+      displayName();
+    }
+    init();
+
+    console.log('== closure ==');
+
+    function makeFunc() {
+      var name = "Mozilla";
+      function displayName() {
+        console.log(name);
+      }
+      return displayName;
+    }
+
+    var myFunc = makeFunc();
+    myFunc();
+
+
+    function makeAdder(x) {
+      return function(y) {
+        return x + y;
+      };
+    }
+
+    var add5 = makeAdder(5);
+    var add10 = makeAdder(10);
+
+    console.log(add5(2));  // 7
+    console.log(add10(2)); // 12
+    </script>
+
+  </head>
+  <body>
+    <p>
+ 자바와 같은 몇몇 언어들은 메소드를 프라이빗으로 선언할 수 있는 기능을 제공한다.
+ 자바스크립트는 태생적으로는 이런 방법을 제공하지 않지만 클로저를 이용하여 프라이빗 메소드를 흉내내는 것이 가능하다.
+ 아래는 모듈 패턴
+    </p>
+    <script>
+    var counter = (function() {
+      var privateCounter = 0;
+      function changeBy(val) {
+        privateCounter += val;
+      }
+      return {
+        increment: function() {
+          changeBy(1);
+        },
+        decrement: function() {
+          changeBy(-1);
+        },
+        value: function() {
+          return privateCounter;
+        }
+      };
+    })();
+
+    console.log(counter.value()); // logs 0
+    counter.increment();
+    counter.increment();
+    console.log(counter.value()); // logs 2
+    counter.decrement();
+    console.log(counter.value()); // logs 1
+    </script>
+    <p>
+      각 클로저가 privateCounter 변수의 다른 버전을 참조.
+    </p>
+    <script>
+    var makeCounter = function() {
+      var privateCounter = 0;
+      function changeBy(val) {
+        privateCounter += val;
+      }
+      return {
+        increment: function() {
+          changeBy(1);
+        },
+        decrement: function() {
+          changeBy(-1);
+        },
+        value: function() {
+          return privateCounter;
+        }
+      }
+    };
+
+    var counter1 = makeCounter();
+    var counter2 = makeCounter();
+    console.log(counter1.value()); /* 0 */
+    counter1.increment();
+    counter1.increment();
+    console.log(counter1.value()); /* 2 */
+    counter1.decrement();
+    console.log(counter1.value()); /* 1 */
+    console.log(counter2.value()); /* 0 */
+/*
+class foo {
+  private drink;
+  public getDrink() {
+    return this.drink;
+  }
+  public setDrink(drink) {
+    this.drink = drink;
+    return this.drink;
+  }
+}
+*/
+//closure private getter&setter
+    var drink = "wine";
+    const foo = (drink) => ({
+        getDrink : () => `${drink}!`,
+        setDrink(sd) {drink = sd;}
+    });
+    var bar = foo('test1');
+    var bar2 = foo('test2');
+
+    // console.log(foo("water"));
+    console.log(bar.getDrink());
+    console.log(bar2.setDrink("juice"));
+
+    console.log(bar2.getDrink());
+    </script>
+  </body>
+</html>
+}

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+<script src="http://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <!-- <script src="https://unpkg.com/axios/dist/axios.min.js"></script> -->
+    <title></title>
+  </head>
+  <body>
+    <p>
+      콜백
+      다음과 같이 동작하는 함수 만들기
+      CASE1 : 다른함수에 들어있는 "실행됨" 출력
+      함수(true, 다른함수)
+      CASE2 : "실행안됨" 출력
+      함수(false, 다른함수)
+      CASE3 : "실행안됨" 출력
+      함수(true)
+      CASE4 : "실행안됨" 출력
+      함수(false)
+    </p>
+    <script>
+    var x = () => console.log('실행됨');
+    var y = (flag, callback) => {
+      if(flag && "function" === typeof(callback)) callback();
+      else console.log('실행안됨');
+    }
+    // x()
+    // y()
+
+    y(true,x) // "실행됨"
+    y(false,x) // "실행안됨"
+    y(true) // "실행안됨"
+    y(false) // "실행안됨"
+    y(true,function(){
+      console.log("익명함슈");
+    }) // "익명함수"
+    y(true,1) // "실행안됨" // 함수가 아니라서
+
+    </script>
+    <p>
+      자바스크립트에서 함수는 일급객체.
+      일급객체를 만족하기 위한 조건
+      -변수나 데이터 구조 안에 담을 수 있다.
+      -파라미터로 전달 할 수 있다.
+      -반환값으로 사용 할 수 있다.
+      -런타임에 생성될 수 있다.
+      파라미터로 함수를 전달하는 구조.
+    </p>
+    <p>
+      jQuery ajax 예제사례
+    </p>
+    <script>
+    const param = {
+      "common"	: {
+        "apl_ver"		: "2.4.5"
+      ,	"os_cd"			: "20"
+      ,	"ts"			: "20171121144621"
+      ,	"mobil_app_no"	: "12"
+      }
+    ,	"params"	: {
+        "itemImgSize"	: "500"
+      ,	"siteNo"		: "6005"
+      ,	"type"			: "osmu"
+      }
+    }
+    var tableData = 1;
+    function getData(param, callback) {
+    	return $.ajax({ // 이 API 함수는 실행 후에 프로미스 객체를 리턴한다
+        url: 'http://m.apps.ssg.com/api/eventcoupon/main/datas.ssg',
+        data: param,
+        type: "POST",
+        headers: {"Content-Type":"text/plain"},
+        // success: function (response) {
+      	// 	tableData = response;
+        //   console.log(1, tableData); // 값은 담겨있음, 아래 1은 시점문제
+      	// } // .then과 같게 동작하는 코드, 순서는 이게우선
+      })
+      .then(function (response) {
+    		tableData = response;
+        console.log(2, tableData);
+    	});
+    }
+
+    var test = getData(param) // 체인 스타일로 바로 밑에 붙여도 되고
+    .then(function (response) {
+      console.log(3, tableData); // 함수 외부로 프로미스 받아서 실행
+    })
+
+    test.then(function (response) { // 다른 변수에 넣어서 써도 되고
+      console.log(4, tableData); // 함수 외부로 프로미스 받아서 실행
+    })
+    </script>
+    <p>
+      비동기
+    </p>
+  </body>
+</html>
