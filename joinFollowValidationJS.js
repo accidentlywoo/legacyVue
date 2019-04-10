@@ -15,15 +15,21 @@
 					return;
 				}
 				
-				if($("[name=\"MEMBPW\"]").val()!== $(".MEMBPW_check").val()){
+				if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
 					commonUtil.msgBox("비밀번호을 확인해주세요.");
 					return;
 				}
-				
-				if(!confirm("아래 정보들로 회원가입 하시겠습니까?")){
+				if($("[name=\"MEMPCD\"]").val() ==""){
+					commonUtil.msgBox("우편번호와 주소는 필수 입력 항목입니다. 우편번호를 검색해주세요.");
+					return false;
+				}
+				if($("[name=\"MEMAD2\"]").val() ==""){
+					$("[name=\"MEMAD2\"]").focus();
+					commonUtil.msgBox("상세주소는 필수 입력 항목입니다.");
 					return;
 				}
-				
+				if(!confirm("입력한 정보들로 회원가입 하시겠습니까?")) return;
+					
 				var param = dataBind.paramData("searchArea");
 				
 				var chk = 0;
@@ -125,10 +131,6 @@
 				if(id.search(/[!@#$%^&*?\]\[{}()\-\+;:`_~.,]/g) != -1) chk++;
 				if(id.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g) != -1) chk++;
 				if(id.search(/^[0-9]/g) != -1) chk++;
-				//if(id.search(/^[\s]/g) != -1) chk++;
-				//if(id.search(/^[a-z\s]/g) != -1) chk++;
-				//if(id.search(/^[a-z0-9\s]/g) != -1) chk++;
-				
 				if(chk !== 0){
 					commonUtil.msgBox("아이디는 영문 소문자로 시작, 영문 소문자-숫자조합으로 사용하세요.");
 					$("[name=\"MEMBID\"]").val("");
@@ -189,6 +191,7 @@
 </head>
 <body>
 <div class="wrap sub">
+	<%@ include file="/B2C/include/menu.jsp" %>
 	<div class="container">
 		<div class="step_box_wrap box_bg">
 			<div class="step_box">
@@ -300,16 +303,24 @@ $("#searchArea [name=\"MEMBPW\"]").focus(function(){
 $("#searchArea .MEMBPW_check").focus(function(){
 	var chk = 0;
 	var currentPwd = $("[name=\"MEMBPW\"]").val();
-	var membid = $("[name=\"MEMBID\"]").val();
+	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
+		$("small.id").css('display','block');
+		$("[name=\"MEMBID\"]").focus();
+		return false;
+	}
+	if(currentPwd ==""){
+		$("[name=\"MEMBPW\"]").focus();
+		return false;
+	}
 	if(currentPwd.search(/\s/) !== -1){
 		commonUtil.msgBox("스페이스입력 불가합니다.");
 		$("[name=\"MEMBPW\"]").val("").focus();
 		return false;
 	}
-	if(currentPwd.search(/[0-9]/g) != -1) chk++;
-	if(currentPwd.search(/[A-Z]/g) != -1) chk++;
-	if(currentPwd.search(/[a-z]/g) != -1) chk++;
-	if(currentPwd.search(/[!@#$%^&*?\]\[{}()\-\+;:`_~.,]/g) != -1) chk++;
+	if(currentPwd.search(/[0-9]/g) !== -1) chk++;
+	if(currentPwd.search(/[A-Z]/g) !== -1) chk++;
+	if(currentPwd.search(/[a-z]/g) !== -1) chk++;
+	if(currentPwd.search(/[!@#$%^&*?\]\[{}()\-\+;:`_~.,]/g) !== -1) chk++;
 	if(chk < 2){
 		commonUtil.msgBox("비밀번호는 숫자, 영대문자, 영소문자, 특수문자를 두가지 이상 혼용하여야 합니다.");
 		$("#searchArea input.MEMBPW_check").val("");
@@ -335,47 +346,55 @@ $("#searchArea .MEMBPW_check").focus(function(){
 		$("#searchArea input.MEMBPW_check").val("");
 		return false;				
 	}
-	if(currentPwd.search(membid) > -1){
+	if(currentPwd.search($("[name=\"MEMBID\"]").val()) > -1){
 		commonUtil.msgBox("아이디가 포함된 비밀번호는 사용하실 수 없습니다.");
 		$("[name=\"MEMBPW\"]").focus();
 		$("#searchArea input.MEMBPW_check").val("");
 		return false;							
 	}
-	if($("#searchArea input.MEMBPW_check").val() != $("[name=\"MEMBPW\"]").val()){
-		$("small.password_check").css('display','block');
-		$("#searchArea input.MEMBPW_check").focus();
-		$("#searchArea input.MEMBPW_check").val("");
-		return false;
-	}else{
-		$("small.password_check").css('display','none');
-	}
-	if($("[name=\"MEMBPW\"]").val() ==""){
-		$("[name=\"MEMBPW\"]").focus();
-	}else if($("[name=\"MEMBPW\"]").hasClass("checked")){
-		$("small.password").css('display','none');
-	}
 });
 $("#searchArea [name=\"MEMNAM\"]").focus(function(){
-	if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
-		if($("#searchArea input.MEMBPW_check").val()===$("[name=\"MEMBPW\"]").val()){
-			$("#searchArea input.MEMBPW_check").addClass("checked")
-			$("small.password_check").css('display','none');
-		}else{
-			$("small.password_check").css('display','block');
-			$("#searchArea input.MEMBPW_check").focus();
-		}
-	}else{
-		if($("#searchArea input.MEMBPW_check").val()!==$("[name=\"MEMBPW\"]").val()){
-			$("small.password_check").css('display','block');
-			$("#searchArea input.MEMBPW_check").removeClass("checked")
-			$("#searchArea input.MEMBPW_check").focus();
-		}
+	var checkPwd = $("#searchArea input.MEMBPW_check");
+	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
+		$("small.id").css('display','block');
+		$("[name=\"MEMBID\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMBPW\"]").val() ===""){
+		$("[name=\"MEMBPW\"]").focus();
+		return false;
+	}
+	if(checkPwd.val()===$("[name=\"MEMBPW\"]").val()){
+		$("#searchArea input.MEMBPW_check").addClass("checked");
 		$("small.password_check").css('display','none');
+	}else{
+		$("#searchArea input.MEMBPW_check").removeClass("checked")
+		$("small.password_check").css('display','block');
+		$("#searchArea input.MEMBPW_check").focus();
+		return false;
 	}
 });
 
 $("#searchArea [name=\"MEMCPH\"]").focus(function(){
 	var name = $("[name=\"MEMNAM\"]").val();
+	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
+		$("small.id").css('display','block');
+		$("[name=\"MEMBID\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMBPW\"]").val() ===""){
+		$("[name=\"MEMBPW\"]").focus();
+		return false;
+	}
+	if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
+		$("#searchArea input.MEMBPW_check").val("").focus();
+		$("small.password_check").css('display','block');
+		return false;
+	}
+	if($("[name=\"MEMNAM\"]").val() ===""){
+		$("[name=\"MEMNAM\"]").focus();
+		return false;
+	}
 	if(name===""){
 		commonUtil.msgBox("이름을 입력해주세요.");
 		$("[name=\"MEMNAM\"]").focus();
@@ -396,20 +415,41 @@ $("#searchArea [name=\"MEMCPH\"]").focus(function(){
 });
 $("#searchArea [name=\"MEMTPH\"]").focus(function(){
 	var phone = $("[name=\"MEMCPH\"]").val();
+	var chk = 0;
+	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
+		$("small.id").css('display','block');
+		$("[name=\"MEMBID\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMBPW\"]").val() ===""){
+		$("[name=\"MEMBPW\"]").focus();
+		return false;
+	}
+	if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
+		$("#searchArea input.MEMBPW_check").focus();
+		return false;
+	}
+	if($("[name=\"MEMNAM\"]").val() ===""){
+		$("[name=\"MEMNAM\"]").focus();
+		return false;
+	}
+	if(phone ===""){
+		$("[name=\"MEMCPH\"]").focus();
+		return false;
+	}
 	if(phone.length <10){
 		commonUtil.msgBox("휴대폰번호가 잘못되었습니다.");
 		$("[name=\"MEMCPH\"]").val("").focus();
 	}
-	var chk = 0;
-	if(name.search(/\s/) !== -1){
+	if(phone.search(/\s/) !== -1){
 		commonUtil.msgBox("스페이스입력 불가합니다.");
-		$("[name=\"MEMNAM\"]").val("");
+		$("[name=\"MEMCPH\"]").val("");
 		return false;
 	}
 	if(phone.search(/[!@#$%^&*?\]\[{}()\-\+;:`_~.,]/g) != -1) chk++;
 	if(phone.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g) != -1) chk++;
-	if(phone.search(/[a-z]/g) != -1) chk++;
-	if(phone.search(/[A-Z]/g) != -1) chk++;
+	if(phone.search(/[a-z]/g) !== -1) chk++;
+	if(phone.search(/[A-Z]/g) !== -1) chk++;
 	if(chk !== 0){
 		commonUtil.msgBox("휴대폰번호에 숫자만 입력하세요.");
 		$("[name=\"MEMCPH\"]").val("").focus();
@@ -417,20 +457,37 @@ $("#searchArea [name=\"MEMTPH\"]").focus(function(){
 });
 $("#searchArea [name=\"MEMEMA\"]").focus(function(){
 	var phone = $("[name=\"MEMTPH\"]").val();
-	if(phone.length ==0){
+	var chk = 0;
+	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
+		$("small.id").css('display','block');
+		$("[name=\"MEMBID\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMBPW\"]").val() ==""){
+		$("[name=\"MEMBPW\"]").focus();
+		return false;
+	}
+	if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
+		$("#searchArea input.MEMBPW_check").focus();
+		return false;
+	}
+	if($("[name=\"MEMNAM\"]").val() ===""){
+		$("[name=\"MEMNAM\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMCPH\"]").val() ===""){
+		$("[name=\"MEMCPH\"]").focus();
+		return false;
+	}
+	if(phone ===""){
 		$("[name=\"MEMTPH\"]").val(" ");
 	}else if(phone.length === 1 && phone === " "){
 		$("[name=\"MEMTPH\"]").val(" ");
 	}else if(phone.length <10){
 		commonUtil.msgBox("휴대폰번호가 잘못되었습니다.");
-		$("[name=\"MEMTPH\"]").val("").focus();
-	} 
-	var chk = 0;
-	if(name.search(/\s/) !== -1){
-		commonUtil.msgBox("스페이스입력 불가합니다.");
-		$("[name=\"MEMNAM\"]").val("");
+		$("[name=\"MEMTPH\"]").focus();
 		return false;
-	}
+	} 
 	if(phone.search(/[!@#$%^&*?\]\[{}()\-\+;:`_~.,]/g) != -1) chk++;
 	if(phone.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g) != -1) chk++;
 	if(phone.search(/[a-z]/g) != -1) chk++;
@@ -442,21 +499,43 @@ $("#searchArea [name=\"MEMEMA\"]").focus(function(){
 });
 $("#searchArea .mempcd").click(function(){
 	var email = $("[name=\"MEMEMA\"]").val();
+	var chk = 0;
+	var regEx = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/g;
+	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
+		$("small.id").css('display','block');
+		$("[name=\"MEMBID\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMBPW\"]").val() ===""){
+		$("[name=\"MEMBPW\"]").focus();
+		return false;
+	}
+	if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
+		$("#searchArea input.MEMBPW_check").focus();
+		return false;
+	}
+	if($("[name=\"MEMNAM\"]").val() ===""){
+		$("[name=\"MEMNAM\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMCPH\"]").val() ===""){
+		$("[name=\"MEMCPH\"]").focus();
+		return false;
+	}
 	if(email===""){
-		commonUtil.msgBox("이메일을 입력해주세요.");
+		commonUtil.msgBox("이메일을 필수 입력 항목입니다.");
 		$("[name=\"MEMEMA\"]").focus();
+		return false;
 	}else{
-		var chk = 0;
-		var regEx = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/g;
 		if(email.search(/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/g) !== -1){
 			commonUtil.msgBox("올바른 이메일 형식이 아닙니다.");
 			$("[name=\"MEMEMA\"]").val("").focus();
 			return false
 		}	
-		if(email.search(/[@]/g) != -1) chk++;
-		if(email.search(/[.]/g) != -1) chk++;
+		if(email.search(/[@]/g) !== -1) chk++;
+		if(email.search(/[.]/g) !== -1) chk++;
 		if(email.search(/[a-z]$/g) != -1) chk++;
-		if(email.search(regEx) != -1) chk++;
+		if(email.search(regEx) !== -1) chk++;
 
 		if(chk !== 4){
 			commonUtil.msgBox("올바른 이메일 형식이 아닙니다.");
@@ -470,60 +549,41 @@ $("#searchArea .mempcd").click(function(){
 $("#searchArea [type=\"checkbox\"]").focus(function(){
 	var memad2 = $("[name=\"MEMAD2\"]").val();
 	var chk = 0;
-	if(memad2.search(/[!@#$%^&*?\]\[{}\-\+;:`_~.,]/g) != -1) chk++;
-	if(chk !== 0){
-		commonUtil.msgBox("상세주소에 ()를 제외한 특수문자를 입력할 수 없습니다.");
-		$("[name=\"MEMAD2\"]").val("").focus();
-		return;
-	}
-});
-//Validation Flow Controll
-$("#searchArea input:gt(0)").click(function(){
+	var regExAddress = /[!@#$%^&*?\]\[{}\-\+;:`_~.]/g;
 	if(!$("[name=\"MEMBID\"]").hasClass("checked")){
 		$("small.id").css('display','block');
 		$("[name=\"MEMBID\"]").focus();
-	}else if($("[name=\"MEMBID\"]").hasClass("checked")){
-		$("small.id").css('display','none');
+		return false;
 	}
-});
-$("#searchArea input:gt(1)").click(function(){
-	if($("[name=\"MEMBPW\"]").val() ==""){
+	if($("[name=\"MEMBPW\"]").val() ===""){
 		$("[name=\"MEMBPW\"]").focus();
-	}else if($("[name=\"MEMBPW\"]").hasClass("checked")){
-		$("small.password").css('display','none');
+		return false;
 	}
-});
-$("#searchArea input:gt(2)").click(function(){
-	if($("#searchArea input.MEMBPW_check").val() != $("[name=\"MEMBPW\"]").val()){
-		$("small.password_check").css('display','block');
-		$("#searchArea input.MEMBPW_check").val("").focus();
-	}else if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
-		$("small.password_check").css('display','block');
-		$("#searchArea input.MEMBPW_check").val("").focus();
-	}else{
-		$("small.password_check").css('display','none');
+	if(!$("#searchArea input.MEMBPW_check").hasClass("checked")){
+		$("#searchArea input.MEMBPW_check").focus();
+		return false;
 	}
-});
-$("#searchArea input:gt(3)").click(function(){
-	var name = $("[name=\"MEMNAM\"]").val();
-	if(name===""){
-		commonUtil.msgBox("이름을 입력해주세요.");
+	if($("[name=\"MEMNAM\"]").val() ===""){
 		$("[name=\"MEMNAM\"]").focus();
+		return false;
 	}
-});
-$("#searchArea input:gt(6)").click(function(){
-	var email = $("[name=\"MEMEMA\"]").val();
-	if(email===""){
-		commonUtil.msgBox("이메일을 입력해주세요.");
+	if($("[name=\"MEMCPH\"]").val() ===""){
+		$("[name=\"MEMCPH\"]").focus();
+		return false;
+	}
+	if($("[name=\"MEMEMA\"]").val() ===""){
 		$("[name=\"MEMEMA\"]").focus();
+		return false;
 	}
-});
-
-$("#searchArea input:gt(9)").click(function(){
-	var memad2 = $("[name=\"MEMAD2\"]").val();
-	if(memad2===""){
-		commonUtil.msgBox("상세주소를 입력해주세요.");
-		$("[name=\"MEMAD2\"]").focus();
+	if($("[name=\"MEMPCD\"]").val() ===""){
+		commonUtil.msgBox("우편번호와 주소는 필수 입력 항목입니다. 우편번호를 검색해주세요.");
+		return false;
+	}
+	if(memad2.search(regExAddress) != -1) chk++;
+	if(chk !== 0){
+		commonUtil.msgBox("상세주소에 (),를 제외한 특수문자를 입력할 수 없습니다.");
+		$("[name=\"MEMAD2\"]").val("").focus();
+		return;
 	}
 });
 </script>
