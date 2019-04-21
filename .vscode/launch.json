@@ -9,7 +9,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceFolder}\\edwithFE\\arrayFunction.js"
+            "program": "${workspaceFolder}\\edwithFE\\bindMethod.js"
         }
     ]
 }
