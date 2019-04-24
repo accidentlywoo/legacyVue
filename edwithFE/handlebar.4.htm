@@ -13,6 +13,38 @@
     <section class="show">
 
     </section>
+    <p>
+        클린 코드
+         이름naming
+            - 함수는 목적에 맞게 이름이 지어져 있는가?
+            - 함수 안의 내용은 이름에 어울리게 하나의 로직을 담고 있는가?
+            - 함수는 동사 + 명사이며 함수의 의도를 충분히 반영하고 있는가?
+            - 함수는 카멜표기법 또는 _를 중간에 사용했는가?
+            - 변수는 명사이며 의미 있는 이름을 지었는가?
+         의도가 드러난 구현패턴
+            - var a = value*19.2; 라는 코드가 있습니다.
+              도대체 19.2가 무엇을 의미하는지 알 수 가 없습니다.
+              대신 변수로 저장하고, 변수에 적절한 이름을 쓰면 더 좋습니다.
+         불필요한 전역변수 사용하지 말자
+         빨리 반환해서 if문 중첩 없애기
+            ex) function foo(pobi, crong){
+                if(pobi){
+                    if(crong){
+                        return true;
+                    }
+                }
+            }
+            -->코드 개선
+            function foo(pobi,crong){
+                if(!pobi) return;
+                if(crog){
+                    return true;
+                }
+            }
+         정적 분석 도구
+            - eslint와 같은 도구는 코드를 읽어서 잠재적인 문제와 anti-pattern을 알려준다.
+              이는 개발도구에서도 plugin을 연동해서 활용할 수가 있다.
+    </p>
 
     <script type="myTemplate" id="listTemplate">
 	<li>
