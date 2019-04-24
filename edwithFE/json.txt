@@ -1,0 +1,18 @@
+[
+    {
+        "name":"Woo",
+        "favorites":["Swimming", "SNS"]
+    },
+    {
+        "name":"jk",
+        "favorites":["zz", "Sdd"]
+    },
+    {
+        "name":"pobi",
+        "favorites":["testg", "test"]
+    },
+    {
+        "name":"honux",
+        "favorites":["fffff", "zzz"]
+    }
+]
