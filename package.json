@@ -4,6 +4,7 @@
   "description": "lite-server",
   "main": "edwithFE/index.html",
   "dependencies": {
+    "create-react-app": "^2.1.8",
     "lite-server": "^2.4.0"
   },
   "devDependencies": {},
