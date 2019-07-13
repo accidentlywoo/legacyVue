@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        h2 {
+        text-align: center
+    }
+    h2,
+    h4 {
+        margin: 0px;
+    }
+    .tab {
+        width: 600px;
+        margin: 0px auto;
+    }
+    .tabmenu {
+        background-color: bisque;
+    }
+    .tabmenu>div {
+        display: inline-block;
+        width: 146px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        cursor: pointer;
+    }
+    .content {
+        padding: 5%;
+        background-color: antiquewhite;
+    }
+    </style>
+</head>
+<body>
+    hello world
+    <h2>Tab UI Test</h2>
+    <div class="tab">
+        <div class="tabmenu">
+            <div>Woo</div>
+            <div>jk</div>
+            <div>pobi</div>
+            <div>honux</div>
+        </div>
+        <section class="content">
+            <h4>hello name</h4>
+            <p>favorites 1,2</p>
+        </section> 
+    </div>
+    <script>
+        function Tab(tabElement){
+            this.tabmenu = tabElement;
+            this.registerEvents();
+        }
+        Tab.prototype = {
+            registerEvents : function(){
+                
+                tabmenu.addEventListener("click", function(e){
+                // console.log(e.target.innerText);
+                    this.sendAjax("./json.txt", e.target.innerText);
+                }.bind(this));
+            },
+            sendAjax : function(url,clickedName){
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener("load", function(){
+                // console.log(oReq.responseText);
+                    var data = JSON.parse(oReq.responseText);
+                    this.makeTemplate(data, clickedName);
+                }.bind(this));
+                oReq.open("GET", url);
+                oReq.send();
+            },
+            makeTemplate : function(data, clickedName){
+                var resultHtML="";
+                var html = document.getElementById("tabcontent").innerHTML;
+                for(var i=0,len=data.length;i<len;i++){
+                    if(data[i].name == clickedName){
+                        resultHtML = html.replace("{name}",data[i].name)
+                                    .replace("{favorites}",data[i].favorites.join(" "));
+                        break;
+                    }
+                }
+                 document.querySelector(".content").innerHTML = resultHtML;
+            }
+        }
+        var tabmenu = document.querySelector(".tabmenu");
+        var o = new Tab(tabmenu);
+    </script>
+    <script id="tabcontent" type="my=template">
+            <h4>hello {name}}</h4>
+            <p>{favorites}</p>
+    </script>
+</body>
+</html>
